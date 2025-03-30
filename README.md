@@ -1,6 +1,8 @@
 # Understanding-TS-pm-tool
 
-This project is a project management tool for understanding TypeScript.
+This project is a project management tool for understanding TypeScript,   
+inspired by a Udemy course. You can find the course 
+[here](https://www.udemy.com/share/103e4O3@YjFc0aC35dOcIMY7x-K0HxNIY64v0lq4kVLEzuAK5Xc0Q-iEzBpE3kwbc3nyxZyCmQ==/).
 
 ## Project Setup
 
