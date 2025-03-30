@@ -8,23 +8,23 @@ interface Validatable {
     max?: number;
 }
 
-export const validate = (validatableInputs:Validatable) => {
+export const validate = (validatableInputs: Validatable): string | null => {
     const { value, required, minLength, maxLength, min, max } = validatableInputs;
-    let isValid = true;
-    if (required) {
-        isValid = isValid && value.toString().trim().length !== 0;
+
+    if (required && (value === null || value === undefined || value.toString().trim().length === 0)) {
+        return 'This field is required.';
     }
-    if (minLength != null && typeof value === 'string') {
-        isValid = isValid && value.length >= minLength;
+    if (minLength != null && typeof value === 'string' && value.length < minLength) {
+        return `Minimum length is ${minLength} characters.`;
     }
-    if (maxLength != null && typeof value === 'string') {
-        isValid = isValid && value.length <= maxLength;
+    if (maxLength != null && typeof value === 'string' && value.length > maxLength) {
+        return `Maximum length is ${maxLength} characters.`;
     }
-    if (min != null && typeof value === 'number') {
-        isValid = isValid && value >= min;
+    if (min != null && typeof value === 'number' && value < min) {
+        return `Value must be at least ${min}.`;
     }
-    if (max != null && typeof value === 'number') {
-        isValid = isValid && value <= max;
+    if (max != null && typeof value === 'number' && value > max) {
+        return `Value must not exceed ${max}.`;
     }
-    return isValid;
-}
+    return null; // Valid input
+};
