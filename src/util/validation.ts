@@ -11,7 +11,7 @@ interface Validatable {
 export const validate = (validatableInputs: Validatable): string | null => {
     const { value, required, minLength, maxLength, min, max } = validatableInputs;
 
-    if (required && value.toString().trim().length === 0) {
+    if (required && (value === null || value === undefined || value.toString().trim().length === 0)) {
         return 'This field is required.';
     }
     if (minLength != null && typeof value === 'string' && value.length < minLength) {
