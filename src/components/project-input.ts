@@ -28,15 +28,47 @@ export class ProjectInput extends Component<HTMLDivElement, HTMLFormElement> {
         const titleValue = this.titleInputElement.value;
         const descriptionValue = this.descriptionInputElement.value;
         const mandayValue = Number(this.mandayInputElement.value);
-        if(
-            !validate({ value: titleValue, required: true }) ||
-            !validate({ value: descriptionValue, required: true, minLength: 5 }) ||
-            !validate({ value: mandayValue, required: true, min: 1, max: 1000 })
-        ) {
-            alert('Invalid input, please try again!');
-        } else {
-            return [titleValue, descriptionValue, mandayValue];
+    
+        // Clear previous error messages
+        this.clearErrorMessages();
+    
+        let isValid = true;
+    
+        const titleError = validate({ value: titleValue, required: true });
+        if (titleError) {
+            this.showError(this.titleInputElement, titleError);
+            isValid = false;
         }
+    
+        const descriptionError = validate({ value: descriptionValue, required: true, minLength: 5 });
+        if (descriptionError) {
+            this.showError(this.descriptionInputElement, descriptionError);
+            isValid = false;
+        }
+    
+        const mandayError = validate({ value: mandayValue, required: true, min: 1, max: 1000 });
+        if (mandayError) {
+            this.showError(this.mandayInputElement, mandayError);
+            isValid = false;
+        }
+    
+        if (!isValid) {
+            return;
+        }
+    
+        return [titleValue, descriptionValue, mandayValue];
+    }
+    
+    private showError(inputElement: HTMLInputElement, message: string) {
+        const errorElement = document.createElement('p');
+        errorElement.textContent = message;
+        errorElement.className = 'error-message';
+        inputElement.insertAdjacentElement('afterend', errorElement);
+    }
+    
+    private clearErrorMessages() {
+        const errorMessages = this.element.querySelectorAll('.error-message');
+        errorMessages.forEach((errorMessage) => errorMessage.remove());
     }
 
     private clearInputs() {
